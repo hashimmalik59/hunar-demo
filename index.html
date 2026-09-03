@@ -290,6 +290,7 @@
             min-height: 48px;
             line-height: 1.2;
             position: relative;
+            white-space: nowrap;
         }
 
         .btn-primary {
@@ -438,12 +439,12 @@
         }
 
         /* ============================================================
-           NAVBAR
+           NAVBAR — FIXED MOBILE ALIGNMENT
            ============================================================ */
         .navbar {
             background: var(--white);
-            padding: 0 24px;
-            height: 72px;
+            padding: 0 16px;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -452,14 +453,16 @@
             z-index: 100;
             border-bottom: 1px solid rgba(0, 0, 0, 0.04);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            gap: 8px;
         }
 
         .navbar .logo {
             font-family: var(--font-heading);
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             color: var(--navy);
             letter-spacing: -0.02em;
+            flex-shrink: 0;
         }
 
         .navbar .logo span {
@@ -469,8 +472,10 @@
         .navbar .nav-links {
             display: flex;
             align-items: center;
-            gap: 32px;
+            gap: 24px;
             list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
         .navbar .nav-links a {
@@ -503,17 +508,31 @@
         .navbar .nav-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            flex-shrink: 0;
         }
 
-        /* mobile nav toggle */
+        .navbar .nav-actions .btn {
+            font-size: 13px;
+            padding: 8px 14px;
+            min-height: 36px;
+            white-space: nowrap;
+        }
+
+        .navbar .nav-actions .btn-primary .btn-label {
+            display: inline;
+        }
+
         .nav-toggle {
             display: none;
-            font-size: 24px;
+            font-size: 22px;
             color: var(--navy);
             background: none;
             border: none;
             cursor: pointer;
+            padding: 4px 6px;
+            flex-shrink: 0;
+            line-height: 1;
         }
 
         /* ============================================================
@@ -1345,33 +1364,112 @@
         }
 
         @media (max-width: 768px) {
+
+            /* ===== MOBILE NAVBAR ===== */
+            .navbar {
+                padding: 0 12px;
+                height: 58px;
+                gap: 4px;
+            }
+
+            .navbar .logo {
+                font-size: 19px;
+            }
+
             .navbar .nav-links {
                 display: none;
                 flex-direction: column;
                 position: absolute;
-                top: 72px;
+                top: 58px;
                 left: 0;
                 right: 0;
                 background: var(--white);
-                padding: 16px 24px;
+                padding: 16px 20px;
                 border-bottom: 1px solid var(--gray-light);
-                gap: 16px;
+                gap: 14px;
                 box-shadow: var(--shadow-md);
+                align-items: stretch;
             }
 
             .navbar .nav-links.open {
                 display: flex;
             }
 
-            .nav-toggle {
-                display: block;
+            .navbar .nav-links a {
+                padding: 8px 0;
+                font-size: 15px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.04);
             }
 
-            .navbar .nav-actions .btn {
-                padding: 8px 16px;
+            .navbar .nav-links a:last-child {
+                border-bottom: none;
+            }
+
+            .navbar .nav-links a.active::after {
+                bottom: 6px;
+            }
+
+            .nav-toggle {
+                display: block;
+                font-size: 20px;
+            }
+
+            /* Hide "Login" text on small screens, show only icon */
+            .navbar .nav-actions .btn-secondary .btn-label {
+                display: none;
+            }
+
+            .navbar .nav-actions .btn-secondary {
+                padding: 8px 10px;
+                font-size: 16px;
+                min-width: 36px;
+                min-height: 36px;
+                border-radius: 8px;
+            }
+
+            .navbar .nav-actions .btn-secondary i {
+                font-size: 16px;
+            }
+
+            /* Post a Job button — keep text visible but smaller */
+            .navbar .nav-actions .btn-primary {
+                padding: 8px 12px;
+                font-size: 12px;
+                min-height: 34px;
+            }
+
+            .navbar .nav-actions .btn-primary .btn-label {
+                display: inline;
+                font-size: 12px;
+            }
+
+            .navbar .nav-actions .btn-primary i {
                 font-size: 13px;
             }
 
+            /* On very small screens, hide "Post a Job" text, show only icon */
+            @media (max-width: 400px) {
+                .navbar .nav-actions .btn-primary .btn-label {
+                    display: none;
+                }
+
+                .navbar .nav-actions .btn-primary {
+                    padding: 8px 10px;
+                    min-width: 36px;
+                    font-size: 16px;
+                }
+
+                .navbar .nav-actions .btn-primary i {
+                    font-size: 16px;
+                    margin: 0;
+                }
+
+                .navbar .nav-actions {
+                    gap: 4px;
+                }
+            }
+
+            /* ===== REST OF MOBILE STYLES ===== */
             .hero h1 {
                 font-size: 32px;
             }
@@ -1768,7 +1866,7 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <!-- ============================================================
-    NAVBAR
+    NAVBAR — FIXED MOBILE ALIGNMENT
     ============================================================ -->
     <nav class="navbar" id="navbar">
         <div class="logo">HUNAR<span>.</span></div>
@@ -1782,9 +1880,13 @@
         </ul>
 
         <div class="nav-actions">
-            <button class="btn btn-secondary btn-sm" onclick="navigateTo('dashboard')">Login</button>
+            <button class="btn btn-secondary btn-sm" onclick="navigateTo('dashboard')">
+                <i class="fas fa-user"></i>
+                <span class="btn-label">Login</span>
+            </button>
             <button class="btn btn-primary btn-sm" onclick="navigateTo('post-job')">
-                <i class="fas fa-plus"></i> Post a Job
+                <i class="fas fa-plus"></i>
+                <span class="btn-label">Post</span>
             </button>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
@@ -2151,7 +2253,7 @@
     ============================================================ -->
     <div id="page-post-job" style="display:none;">
         <div class="container" style="padding:40px 0 60px;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap;">
                 <button class="btn btn-ghost btn-sm" onclick="navigateTo('home')">
                     <i class="fas fa-arrow-left"></i> Back
                 </button>
@@ -2365,6 +2467,8 @@
             if (page === 'home') {
                 document.querySelector('.nav-links a[href="#home"]')?.classList.add('active');
             }
+            // close mobile nav
+            document.getElementById('navLinks').classList.remove('open');
         }
 
         // ============================================================
@@ -2729,8 +2833,19 @@
         // ============================================================
         // MOBILE NAV TOGGLE
         // ============================================================
-        document.getElementById('navToggle').addEventListener('click', function () {
+        document.getElementById('navToggle').addEventListener('click', function (e) {
+            e.stopPropagation();
             document.getElementById('navLinks').classList.toggle('open');
+        });
+
+        // Close nav when clicking outside
+        document.addEventListener('click', function (e) {
+            const nav = document.getElementById('navbar');
+            const toggle = document.getElementById('navToggle');
+            const links = document.getElementById('navLinks');
+            if (!nav.contains(e.target) && links.classList.contains('open')) {
+                links.classList.remove('open');
+            }
         });
 
         // ============================================================
@@ -2783,11 +2898,6 @@
                     }
                     document.getElementById('navLinks').classList.remove('open');
                 });
-            });
-
-            // Also handle "View All Services" etc.
-            document.querySelectorAll('[onclick*="navigateTo"]').forEach(el => {
-                // already handled inline
             });
         });
 
